@@ -5,8 +5,6 @@ require 'pry'
 require 'dotenv/load'
 
 # API constants
-YEAR = 1990
-API_URL = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&primary_release_year=#{YEAR}&sort_by=popularity.desc&with_original_language=en"
 AUTHORIZATION_TOKEN = ENV['TMDB_TOKEN']
 IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w200'
 
@@ -30,8 +28,9 @@ def download_image(image_url, file_name)
 end
 
 # Method to make the API request and process the image
-def fetch_and_download_image
-  uri = URI("#{API_URL}")
+def fetch_and_download_image(year)
+  api_uri = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&primary_release_year=#{year}&sort_by=popularity.desc&with_original_language=en"
+  uri = URI(api_uri.to_s)
   req = Net::HTTP::Get.new(uri)
   req['Authorization'] = "Bearer #{AUTHORIZATION_TOKEN}"
   req['accept'] = 'application/json'
@@ -42,7 +41,7 @@ def fetch_and_download_image
     data = JSON.parse(res.body)
     # Extracting the poster_path (assumes it's in 'results')
     if data['results'] && !data['results'].empty?
-      data['results'].each do |result|
+      data['results'].each.with_index do |result, index|
         poster_path = result['poster_path']
         if poster_path.nil?
           puts 'Poster path not available'
@@ -52,7 +51,7 @@ def fetch_and_download_image
 
           # Download the image
           # binding.irb
-          file_path = Pathname.new(__dir__).join("assets/images/#{YEAR}/#{poster_path.gsub('/', '')}")
+          file_path = Pathname.new(__dir__).join('..').join("assets/images/#{year}/#{index}.jpg")
           download_image(full_image_url, file_path)
         end
       end
@@ -64,4 +63,8 @@ def fetch_and_download_image
   end
 end
 
-fetch_and_download_image
+year = 1992
+loop do
+  fetch_and_download_image(year)
+  year += 1
+end
