@@ -14,7 +14,8 @@
 <body>
 
     <div class="container text-center my-4">
-        <h1 class="mb-4">Guess The Year by Movie Posters</h1>
+        <h1 class="mb-4">Guess The Year by Movies</h1>
+        <p class="mb-4 text-success h5">www.guessmovie.pages.dev</p>
 
         <div class="row justify-content-center">
             <div class="col-6 col-md-3 mb-3">
@@ -127,8 +128,27 @@
                 loadImages();  // Restart the game by loading new images
                 $('#resultModal').modal('hide'); // Close the modal
             });
+
+            // Listen for Enter keypress on the input field
+            $(document).on('keydown', function (e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();  // Prevent form submission or default action
+
+                    // Check if the modal is visible
+                    if ($('#resultModal').hasClass('show')) {
+                        // If modal is open, restart the game
+                        $('#restartBtn').click();
+                    } else {
+                        // If modal is not open, submit the guess
+                        $('#guessYearBtn').click();
+                    }
+                }
+            });
         });
     </script>
+
+
+
 
 </body>
 
