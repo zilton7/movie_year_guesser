@@ -88,7 +88,7 @@ $(document).ready(function () {
       const imageName = getRandomImage();
       const imageUrl = `${basePath}${randomFolder}/${imageName}.jpg`; // Adjust the naming convention as needed
       $(`#img${i}`).html(
-        `<img src="${imageUrl}" class="img-fluid rounded" alt="${imageName}">`
+        `<img class="border rounded shadow-lg" src="${imageUrl}" class="img-fluid rounded" alt="${imageName}">`
       );
     }
 
