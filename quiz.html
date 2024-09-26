@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: white;
+            text-align: center;
+            padding-top: 50px;
+        }
+
+        .container {
+            width: 90%;
+            margin: 0 auto;
+            margin-top: 200px;
+        }
+
+        .question {
+            font-size: 32px;
+            margin-bottom: 30px;
+        }
+
+        .answer {
+            margin: 15px;
+            padding: 10px;
+            background-color: #333;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        /* .answer:hover {
+            background-color: #444;
+        } */
+
+        .correct {
+            background-color: green;
+        }
+
+        .incorrect {
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="question" class="question">Question will appear here</div>
+        <div id="answer1" class="answer">Answer 1</div>
+        <div id="answer2" class="answer">Answer 2</div>
+        <div id="answer3" class="answer">Answer 3</div>
+        <div id="answer4" class="answer">Answer 4</div>
+        <div id="correct"></div>
+        <div class="" style="display: flex; justify-content: center; margin-top: 60px">
+            <img width="100" style="display: block;" src=" assets/graphics/swipe-left.png" alt="">
+        </div>
+    </div>
+
+    <script src="./assets/data/nba.js"></script>
+    <script>
+        // Get a random question from the data array
+        function getRandomQuestion() {
+            const randomIndex = Math.floor(Math.random() * data.length);
+            return data[randomIndex];
+        }
+
+        // Display the selected question and answers
+        function displayQuestion() {
+            const questionData = getRandomQuestion();
+
+            document.getElementById('question').textContent = questionData.question;
+            document.getElementById('answer1').textContent = questionData.answers[0];
+            document.getElementById('answer2').textContent = questionData.answers[1];
+            document.getElementById('answer3').textContent = questionData.answers[2];
+            document.getElementById('answer4').textContent = questionData.answers[3];
+
+            document.getElementById('correct').dataset.correct = questionData.correct;
+
+            // Add event listeners to check if the clicked answer is correct
+            document.querySelectorAll('.answer').forEach((answerElement, index) => {
+                answerElement.onclick = function () {
+                    if (questionData.answers[index] === questionData.correct) {
+                        answerElement.classList.add('correct');
+                    } else {
+                        answerElement.classList.add('incorrect');
+                    }
+                    disableAnswers();
+                };
+            });
+        }
+
+        // Disable the answers after one is clicked
+        function disableAnswers() {
+            document.querySelectorAll('.answer').forEach(answer => {
+                answer.onclick = null; // Disable click
+            });
+        }
+
+        // Initial display
+        displayQuestion();
+    </script>
+</body>
+
+</html>

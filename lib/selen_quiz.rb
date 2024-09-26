@@ -1,12 +1,13 @@
 require 'selenium-webdriver'
 require 'pry'
 
-quiz_name = 'GEO'
+quiz_name = 'NBA'
 quiz_difficulty = 'Medium'
 
 # Define the path to your local HTML file
-html_intro_file_path = "file://#{File.absolute_path('quiz.html')}quiz_name=#{quiz_name}&quiz_difficulty=#{quiz_difficulty}"
+html_intro_file_path = "file://#{File.absolute_path('quiz_intro.html')}?quiz_name=#{quiz_name}&quiz_difficulty=#{quiz_difficulty}"
 html_file_path = "file://#{File.absolute_path('quiz.html')}"
+html_outro_file_path = "file://#{File.absolute_path('quiz_outro.html')}"
 
 # Set up Selenium to use Chrome
 options = Selenium::WebDriver::Chrome::Options.new
@@ -31,8 +32,13 @@ driver = Selenium::WebDriver.for :chrome, options: options
 
 driver.navigate.to html_intro_file_path
 
+driver.save_screenshot(File.absolute_path("lib/rendered/#{quiz_name}/#{dir_name}/0_0_intro.png"))
+
+puts 'Screenshot saved as 0_0_intro.png'
+
 index = 0
-10.times do
+count = 10
+count.times do
   # Open the local HTML file in the browser
   driver.navigate.to html_file_path
   # Take a screenshot and save it as 'screenshot.png'
@@ -51,5 +57,10 @@ index = 0
   puts "Screenshot saved as #{index}_b.png"
   index += 1
 end
+
+driver.navigate.to html_outro_file_path
+driver.save_screenshot(File.absolute_path("lib/rendered/#{quiz_name}/#{dir_name}/#{count}_outro.png"))
+puts 'Screenshot saved as 0_0_outro.png'
+
 # Close the browser
 driver.quit

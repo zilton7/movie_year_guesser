@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geo quiz - Finish</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: white;
+            text-align: center;
+            padding-top: 50px;
+        }
+
+        .container {
+            width: 90%;
+            margin: 0 auto;
+            margin-top: 350px;
+        }
+
+        .title {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .difficulty {
+            font-size: 24px;
+            margin-bottom: 40px;
+        }
+
+        .start-button {
+            padding: 15px 30px;
+            font-size: 24px;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .start-button:hover {
+            background-color: #45a049;
+        }
+
+        .quiz-container {
+            display: none;
+            margin-top: 100px;
+        }
+
+        .question {
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+
+        .answer {
+            margin: 15px;
+            padding: 10px;
+            background-color: #333;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .answer:hover {
+            background-color: #444;
+        }
+
+        .correct {
+            background-color: green;
+        }
+
+        .incorrect {
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" id="landing-page">
+        <div class="title">How many did you get right?</div>
+        <div class="difficulty">Tell us in the comments ;)</div>
+    </div>
+
+    <script src="./assets/data/geo.js"></script>
+    <script>
+        // Show the quiz container and hide the landing page
+        function startquiz() {
+            document.getElementById('landing-page').style.display = 'none';
+            document.getElementById('quiz-container').style.display = 'block';
+            displayQuestion();
+        }
+
+        // Get a random question from the data array
+        function getRandomQuestion() {
+            const randomIndex = Math.floor(Math.random() * data.length);
+            return data[randomIndex];
+        }
+
+        // Get the URL parameters
+        const params = new URLSearchParams(window.location.search);
+
+        // Get the 'answer' parameter from the URL
+        const quiz_name = params.get('quiz_name');
+        const quiz_difficulty = params.get('quiz_difficulty');
+
+        // Insert the answer into the div with id="answer"
+        document.getElementById('quiz_name').innerHTML = quiz_name + ' quiz';
+        document.getElementById('quiz_difficulty').innerHTML = 'Difficulty: ' + quiz_difficulty;
+    </script>
+</body>
+
+</html>
